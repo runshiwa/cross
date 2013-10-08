@@ -1,42 +1,17 @@
 #! /usr/bin/awk -f
 
-BEGIN {
-	if(!axis)
-		axis = "-";
-	split(axis, a);
-	if(!summary)
-		summary = "3 4 5 6";
-	split(summary, s);
-}
+# example:
+#	$ ps aux | tail -n +2 | sort | cross-ordered.awk -v axis="1" -v summary="" | sort -nk 2
+# will produce:
+#	per axis (USER),
+#		per summary (%CPU, %MEM, VSZ, RSS),
+#			frequency of summary
+#			minimum of summary
+#			average of summary
+#			maximum of summary
+#			standard deviation of summary
 
-{
-	if(axis == "-")
-		pattern = axis;
-	else {
-		pattern = $a[1];
-		for(i = 2; i <= length(a); i++)
-			pattern = pattern SUBSEP $a[i];
-	}
-	if(pattern != ppattern){
-		for(key in count){
-			# average = sum[key] / count[key];
-			# variance = sum2[key] / count[key] - average * average;
-			# standardDeviation = sqrt(variance);
-			# print gensub(SUBSEP, OFS, "g", ppattern SUBSEP key), count[key], min[key], average, max[key], standardDeviation;
-
-			average = mean[key];
-			variance = M2[key] / count[key];
-			standardDeviation = sqrt(variance);
-			print gensub(SUBSEP, OFS, "g", ppattern SUBSEP key), count[key], min[key], average, max[key], standardDeviation;
-		}
-		delete count;
-		# delete sum;
-		# delete sum2;
-		delete mean;
-		delete M2;
-		delete min;
-		delete max;
-	}
+function update(){
 	for(i = 1; i <= length(s); i++){
 		count[s[i]]++;
 		# sum[s[i]] += $s[i];
@@ -55,10 +30,9 @@ BEGIN {
 		if(max[s[i]] < $s[i])
 			max[s[i]] = $s[i];
 	}
-	ppattern = pattern;
 }
 
-END {
+function summarize(){
 	for(key in count){
 		# average = sum[key] / count[key];
 		# variance = sum2[key] / count[key] - average * average;
@@ -79,4 +53,45 @@ END {
 		standardDeviation = sqrt(variance);
 		print gensub(SUBSEP, OFS, "g", ppattern SUBSEP key), count[key], min[key], average, max[key], standardDeviation;
 	}
+}
+
+function reset(){
+	delete count;
+	# delete sum;
+	# delete sum2;
+	delete mean;
+	delete M2;
+	delete min;
+	delete max;
+}
+
+BEGIN {
+	if(!axis)
+		axis = "-";
+	split(axis, a);
+	if(!summary)
+		summary = "3 4 5 6";
+	split(summary, s);
+}
+
+{
+	if(axis == "-")
+		pattern = axis;
+	else {
+		pattern = $a[1];
+		for(i = 2; i <= length(a); i++)
+			pattern = pattern SUBSEP $a[i];
+	}
+
+	if(pattern != ppattern){
+		summarize();
+		reset();
+	}
+	update();
+
+	ppattern = pattern;
+}
+
+END {
+	summarize();
 }
