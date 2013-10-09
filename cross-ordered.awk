@@ -1,7 +1,7 @@
 #! /usr/bin/awk -f
 
 # example:
-#	$ ps aux | tail -n +2 | sort | cross-ordered.awk -v axis="1" -v summary="" | sort -nk 2
+#	$ ps aux | tail -n +2 | sort | cross-ordered.awk -v axis="1" -v summary="" | sort -nk 2 | sort
 # will produce:
 #	per axis (USER),
 #		per summary (%CPU, %MEM, VSZ, RSS),
