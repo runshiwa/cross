@@ -9,6 +9,8 @@
 # 2nd level rough summary by cross.awk
 #   $ aggregate.awk -v axis="2" -v summary="" ps-aux1.txt | awk '{print "-",$0}' | sort -nk 2 | sort | diff ps-aux2.txt -
 # 2nd summary by aggregate.awk from 1st summary, then compare
+#   $ for i in 3 4 5 6; do tail -n +2 ps-aux.txt | awk -v s=$i '{print "-",s,1,$s,$s,$s,0}' | ./aggregate.awk -v axis="1 2" -v summary="3 4 5 6 7"; done | diff ps-aux2.txt -
+# 2nd summary by aggregate.awk from raw data, then compare
 
 function update(){
 	na = count[pattern];
