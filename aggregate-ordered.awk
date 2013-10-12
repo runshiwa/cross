@@ -9,6 +9,8 @@
 # 2nd summary by aggregate-ordered.awk from 1st summary, then compare
 #   $ for i in 3 4 5 6; do tail -n +2 ps-aux.txt | awk -v s=$i '{print "-",s,1,$s,$s,$s,0}' | aggregate-ordered.awk -v axis="1 2" -v summary="3 4 5 6 7"; done | diff ps-aux2.txt -
 # 2nd summary by aggregate-ordered.awk from raw data, then compare
+#   $ ping www.google.co.jp | awk --source 'BEGIN{FS="[ =():]+";axis="";summary="2 3 4 5 6";running=1}NR==1{print;next}{if(end==1||NF==0){end=1;print;next};$0="-" OFS 1 OFS $11 OFS $11 OFS $11 OFS 0}' -f aggregate-ordered.awk
+# print per ping statistics
 
 function update(){
 	na = count;
