@@ -69,14 +69,18 @@ BEGIN {
 	}
 
 	if(ppattern && pattern != ppattern){
-		summarize();
+		if(!running)
+			summarize();
 		reset();
 	}
 	update();
 
 	ppattern = pattern;
+	if(running)
+		summarize();
 }
 
 END {
-	summarize();
+	if(!running)
+		summarize();
 }

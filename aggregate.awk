@@ -65,8 +65,11 @@ BEGIN {
 	}
 
 	update();
+	if(running)
+		summarize();
 }
 
 END {
-	summarize();
+	if(!running)
+		summarize();
 }
