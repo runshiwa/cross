@@ -10,6 +10,18 @@
 #			average of summary
 #			maximum of summary
 #			standard deviation of summary
+#   $ ps aux | tail -n +2 | cross.awk -v axis="1" -v summary="" \
+#   | tabulate.awk -v row="1" -v column="2" -v summary="3 4 5 6 7" --source 'BEGIN{OFS="\t"}' | LANG=C sort -t $'\t' -sk 1,1 \
+#   | transpose.awk --source 'BEGIN{OFS=FS="\t"}' | LANG=C sort -t $'\t' -snk 1,2 \
+#   | transpose.awk --source 'BEGIN{OFS=FS="\t"}' \
+#   | format-html-table.awk -F\\t -v rowHeader='1' -v columnHeader='1\t2' -v tableAttribute=' border' -v dataAttribute=' align="right"' -v columnAttribute=' align="right"' -v suppressRun=1 >cross-tabulation.html
+# arrange USER to row, %CPU (3), %MEM (4), VSZ (5), RSS (6) to column, each column has 5 basic statistics (freq, min, avg, max, stddev), then format in HTML table.
+#   $ ps aux | tail -n +2 | cross.awk -v axis="1" -v summary="" \
+#   | tabulate.awk -v row="1 2" -v column="" -v summary="3 4 5 6 7" --source 'BEGIN{OFS="\t"}' | LANG=C sort -t $'\t' -sk 1,2 \
+#   | transpose.awk --source 'BEGIN{OFS=FS="\t"}' | LANG=C sort -t $'\t' -snk 1,1 \
+#   | transpose.awk --source 'BEGIN{OFS=FS="\t"}' \
+#   | format-html-table.awk -F\\t -v rowHeader='1\t2' -v columnHeader='1' -v tableAttribute=' border' -v dataAttribute=' align="right"' -v columnAttribute=' align="right"' -v suppressRun=1 >cross-tabulation2.html
+# arrange USER and summaries (%CPU, %MEM, VSZ, RSS) to row, each column has 5 basics, then format in HTML table.
 
 function update(){
 	for(i = 1; i <= length(s); i++){
