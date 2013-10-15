@@ -27,9 +27,6 @@ function update(){
 	for(i = 1; i <= length(s); i++){
 		count[pattern, s[i]]++;
 
-		# sum[pattern, s[i]] += $s[i];
-		# sum2[pattern, s[i]] += $s[i] * $s[i];
-
 		delta = $s[i] - mean[pattern, s[i]];
 		mean[pattern, s[i]] = mean[pattern, s[i]] + delta / count[pattern, s[i]];
 		M2[pattern, s[i]] = M2[pattern, s[i]] + delta * ($s[i] - mean[pattern, s[i]]);
@@ -47,11 +44,6 @@ function update(){
 
 function summarize(){
 	for(key in count){
-		# average = sum[key] / count[key];
-		# variance = sum2[key] / count[key] - average * average;
-		# standardDeviation = sqrt(variance);
-		# print gensub(SUBSEP, OFS, "g", key), count[key], min[key], average, max[key], standardDeviation;
-
 		average = mean[key];
 
 		# sample population variance

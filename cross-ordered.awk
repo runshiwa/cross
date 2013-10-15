@@ -14,8 +14,6 @@
 function update(){
 	for(i = 1; i <= length(s); i++){
 		count[s[i]]++;
-		# sum[s[i]] += $s[i];
-		# sum2[s[i]] += $s[i] * $s[i];
 
 		delta = $s[i] - mean[s[i]];
 		mean[s[i]] = mean[s[i]] + delta / count[s[i]];
@@ -34,11 +32,6 @@ function update(){
 
 function summarize(){
 	for(key in count){
-		# average = sum[key] / count[key];
-		# variance = sum2[key] / count[key] - average * average;
-		# standardDeviation = sqrt(variance);
-		# print gensub(SUBSEP, OFS, "g", ppattern SUBSEP key), count[key], min[key], average, max[key], standardDeviation;
-
 		average = mean[key];
 
 		# sample population variance
@@ -57,8 +50,6 @@ function summarize(){
 
 function reset(){
 	delete count;
-	# delete sum;
-	# delete sum2;
 	delete mean;
 	delete M2;
 	delete min;
