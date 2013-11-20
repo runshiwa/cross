@@ -32,13 +32,15 @@ function update(){
 		min = $s[2];
 	if(max < $s[4])
 		max = $s[4];
+
+	sum += $s[5];
 }
 
 function summarize(){
 	average = mean;
 	variance = M2 / count;
 	standardDeviation = sqrt(variance);
-	print gensub(SUBSEP, OFS, "g", ppattern), count, min, average, max, standardDeviation;
+	print gensub(SUBSEP, OFS, "g", ppattern), count, min, average, max, standardDeviation, sum;
 }
 
 function reset(){
@@ -47,6 +49,7 @@ function reset(){
 	M2 = 0;
 	min = 0;
 	max = 0;
+	sum = 0;
 }
 
 BEGIN {

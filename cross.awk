@@ -10,6 +10,7 @@
 #			average of summary
 #			maximum of summary
 #			standard deviation of summary
+#			summation of summary
 #   $ ps aux | tail -n +2 | cross.awk -v axis="1" -v summary="" \
 #   | tabulate.awk -v row="1" -v column="2" -v summary="3 4 5 6 7" --source 'BEGIN{OFS="\t"}' | LANG=C sort -t $'\t' -sk 1,1 \
 #   | transpose.awk --source 'BEGIN{OFS=FS="\t"}' | LANG=C sort -t $'\t' -snk 1,2 \
@@ -39,6 +40,8 @@ function update(){
 			min[pattern, s[i]] = $s[i];
 		if(max[pattern, s[i]] < $s[i])
 			max[pattern, s[i]] = $s[i];
+
+		sum[pattern, s[i]] += $s[i];
 	}
 }
 
@@ -56,7 +59,7 @@ function summarize(){
 		variance = M2[key] / count[key];
 
 		standardDeviation = sqrt(variance);
-		print gensub(SUBSEP, OFS, "g", key), count[key], min[key], average, max[key], standardDeviation;
+		print gensub(SUBSEP, OFS, "g", key), count[key], min[key], average, max[key], standardDeviation, sum[key];
 	}
 }
 

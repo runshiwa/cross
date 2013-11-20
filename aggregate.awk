@@ -34,6 +34,8 @@ function update(){
 		min[pattern] = $s[2];
 	if(max[pattern] < $s[4])
 		max[pattern] = $s[4];
+
+	sum[pattern] += $s[5];
 }
 
 function summarize(){
@@ -41,7 +43,7 @@ function summarize(){
 		average = mean[key];
 		variance = M2[key] / count[key];
 		standardDeviation = sqrt(variance);
-		print gensub(SUBSEP, OFS, "g", key), count[key], min[key], average, max[key], standardDeviation;
+		print gensub(SUBSEP, OFS, "g", key), count[key], min[key], average, max[key], standardDeviation, sum[key];
 	}
 }
 

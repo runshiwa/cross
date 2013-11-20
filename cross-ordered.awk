@@ -10,6 +10,7 @@
 #			average of summary
 #			maximum of summary
 #			standard deviation of summary
+#			summation of summary
 
 function update(){
 	for(i = 1; i <= length(s); i++){
@@ -27,6 +28,8 @@ function update(){
 			min[s[i]] = $s[i];
 		if(max[s[i]] < $s[i])
 			max[s[i]] = $s[i];
+
+		sum[s[i]] += $s[i];
 	}
 }
 
@@ -44,7 +47,7 @@ function summarize(){
 		variance = M2[key] / count[key];
 
 		standardDeviation = sqrt(variance);
-		print gensub(SUBSEP, OFS, "g", ppattern SUBSEP key), count[key], min[key], average, max[key], standardDeviation;
+		print gensub(SUBSEP, OFS, "g", ppattern SUBSEP key), count[key], min[key], average, max[key], standardDeviation, sum[key];
 	}
 }
 
@@ -54,6 +57,7 @@ function reset(){
 	delete M2;
 	delete min;
 	delete max;
+	delete sum;
 }
 
 BEGIN {
