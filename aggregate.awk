@@ -35,7 +35,7 @@ function update(){
 	if(max[pattern] < $s[4])
 		max[pattern] = $s[4];
 
-	sum[pattern] += $s[5];
+	sum[pattern] += $s[1] * $s[3];
 }
 
 function summarize(){
