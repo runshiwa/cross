@@ -33,7 +33,7 @@ function update(){
 	if(max < $s[4])
 		max = $s[4];
 
-	sum += $s[5];
+	sum += $s[1] * $s[3];
 }
 
 function summarize(){
